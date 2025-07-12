@@ -1,218 +1,193 @@
-📬 SMS Spam Classifier — NLP & Machine Learning Project
-This project is a binary classification system that detects whether a given SMS message is spam or ham (not spam) using Natural Language Processing (NLP) and Machine Learning (ML). It is built using the SMS Spam Collection Dataset and demonstrates how to preprocess raw text, extract features, and train a model to accurately classify text messages.
+# 📬 SMS Spam Classifier — NLP & Machine Learning Project
 
-📌 Table of Contents
-Project Objective
+This project is a **binary classification system** that detects whether a given SMS message is **spam** or **ham** (not spam) using **Natural Language Processing (NLP)** and **Machine Learning (ML)**. It is built using the **SMS Spam Collection Dataset** and demonstrates how to preprocess raw text, extract features, and train a model to accurately classify text messages.
 
-Dataset Description
+---
 
-Natural Language Processing (NLP) Workflow
+## 📌 Table of Contents
 
-Data Cleaning & Preprocessing
+- [Project Objective](#project-objective)
+- [Dataset Description](#dataset-description)
+- [NLP Workflow](#nlp-workflow)
+- [Model Building](#model-building)
+- [Model Evaluation](#model-evaluation)
+- [How to Run This Project](#how-to-run-this-project)
+- [Technologies & Libraries Used](#technologies--libraries-used)
+- [Results & Discussion](#results--discussion)
+- [Conclusion](#conclusion)
+- [Possible Improvements](#possible-improvements)
 
-Tokenization
+---
 
-Stopword Removal
+## 🎯 Project Objective
 
-Stemming
+To develop a spam detection model that classifies SMS messages as either **Spam** or **Ham** using:
 
-Feature Extraction (BoW)
+- NLP techniques for text preprocessing
+- Feature extraction using Bag of Words
+- Machine learning classifier (Naive Bayes)
+- Accuracy and performance metrics for evaluation
 
-Model Building
+---
 
-Model Evaluation
+## 📂 Dataset Description
 
-How to Run This Project
+- **Dataset**: SMS Spam Collection Dataset (UCI Repository)
+- **Records**: 5,572 labeled SMS messages
+- **Labels**:
+  - `ham`: Non-spam (legit messages)
+  - `spam`: Junk or unwanted messages
 
-Technologies & Libraries Used
+---
 
-Results & Discussion
+## 🧠 NLP Workflow
 
-Conclusion
+### 🔹 1. Text Cleaning
 
-Possible Improvements
+- Lowercasing  
+- Removing punctuation and digits  
+- Removing special characters  
 
-🎯 Project Objective
-To develop a spam detection model that classifies SMS messages as either Spam or Ham using:
+---
 
-NLP techniques for text processing.
+### 🔹 2. Tokenization
 
-A Naive Bayes classifier for machine learning.
+Splits text into individual tokens (words).
 
-Accuracy and performance metrics for evaluation.
+```python
+"This is spam" → ['this', 'is', 'spam']
+```
 
-📂 Dataset Description
-The dataset used is the SMS Spam Collection Dataset from the UCI Machine Learning Repository.
-It contains 5,572 SMS messages, each labeled as either:
+---
 
-ham – non-spam
+### 🔹 3. Stopword Removal
 
-spam – unwanted commercial or scam messages
+Removes common, less meaningful words.
 
-Each row contains:
+```python
+['this', 'is', 'spam'] → ['spam']
+```
 
-A label (ham or spam)
+---
 
-A message text
+### 🔹 4. Stemming
 
-🧠 Natural Language Processing (NLP) Workflow
-Raw text data is messy and needs transformation to be used in ML models. Here's the step-by-step breakdown of the preprocessing process applied:
+Converts words to root form using Porter Stemmer.
 
-🔹 1. Text Cleaning
-Remove unnecessary symbols or characters that do not contribute to meaning.
+```python
+['loved', 'loving'] → ['love']
+```
 
-Steps performed:
+---
 
-Convert text to lowercase (HELLO → hello)
+### 🔹 5. Feature Extraction (Bag of Words)
 
-Remove punctuation and numbers using regex
+Uses `CountVectorizer` to convert text to numeric vectors.
 
-Remove special characters and whitespaces
+```python
+["buy now", "win now"] →
+[1, 1, 0], [0, 1, 1]
+```
 
-Why? Cleaned text ensures consistency, and irrelevant characters are discarded to avoid noise in analysis.
+---
 
-🔹 2. Tokenization
-Tokenization splits each sentence into individual words or tokens.
+## 🤖 Model Building
 
-Example:
+- **Model Used**: Multinomial Naive Bayes (suitable for word frequencies)  
+- **Why Naive Bayes?**
+  - Fast and efficient for text
+  - Performs well with bag-of-words data
+- **Train-Test Split**: 80/20
 
-“This is a spam message” → [‘this’, ‘is’, ‘a’, ‘spam’, ‘message’]
+---
 
-Theory: Tokenization is essential for turning unstructured text into a structured format that ML models can understand.
+## 📊 Model Evaluation
 
-🔹 3. Stopword Removal
-Stopwords are common words that carry little meaning (e.g., “the”, “is”, “and”).
+- **Accuracy**  
+- **Precision**  
+- **Recall**  
+- **F1-score**  
+- **Confusion Matrix**
 
-Using NLTK's list, we remove them from our token list.
+✅ Achieved approximately **97% accuracy** in classification!
 
-Example:
+---
 
-[‘this’, ‘is’, ‘a’, ‘spam’, ‘message’] → [‘spam’, ‘message’]
+## ▶️ How to Run This Project
 
-Why? Removing stopwords focuses the model on important words that carry meaning, improving accuracy.
+### ✅ Requirements
 
-🔹 4. Stemming
-Stemming reduces words to their root form.
+Install dependencies using:
 
-Example:
+```bash
+pip install -r requirements.txt
+```
 
-“loved”, “loving” → “love”
-“playing”, “played” → “play”
+Or manually:
 
-Used: Porter Stemmer from NLTK
+```bash
+pip install pandas numpy nltk scikit-learn matplotlib seaborn
+```
 
-Why? Stemming helps group similar words, reducing the vocabulary size and improving learning efficiency.
+---
 
-🔹 5. Feature Extraction: Bag of Words (BoW)
-The text is converted into numerical format using CountVectorizer, a method from Scikit-learn.
+### 🏃 Steps
 
-Bag of Words counts how often each word appears in the dataset.
+1. Clone this repository:
+```bash
+git clone https://github.com/your-username/sms-spam-classifier.git
+cd sms-spam-classifier
+```
 
-Each message becomes a vector of word frequencies.
+2. Launch the notebook:
+```bash
+jupyter notebook notebooks/sms_spam_classifier.ipynb
+```
 
-Example:
+3. Run all cells in order.
 
-Word	"Buy now"	"now win free"
-buy	1	0
-now	1	1
-win	0	1
-free	0	1
+4. Optionally, run modular scripts in `src/`.
 
-Theory: BoW ignores grammar and word order but captures word presence and frequency, which is often enough for spam detection.
+---
 
-🤖 Model Building
-Algorithm Used: Multinomial Naive Bayes
-The Multinomial Naive Bayes model is best for discrete data (like word counts).
+## 💻 Technologies & Libraries Used
 
-Why Naive Bayes?
+| Tool/Library      | Purpose                             |
+|------------------|-------------------------------------|
+| Python            | Programming Language                |
+| pandas            | Data Handling                       |
+| numpy             | Numerical Computations              |
+| nltk              | Natural Language Processing         |
+| scikit-learn      | Machine Learning                    |
+| matplotlib/seaborn| Data Visualization                  |
 
-Simple and fast
+---
 
-Performs well with text classification
+## ✅ Results & Discussion
 
-Works under the assumption that features (words) are conditionally independent given the class (spam/ham)
+- Trained Naive Bayes model achieved **~97% accuracy**
+- Very low false positive rate for ham
+- Effective preprocessing and feature engineering were key
 
-Steps in notebook:
+---
 
-Split data into training and testing sets (80/20 split)
+## 🧾 Conclusion
 
-Fit the model on training data
+This project demonstrates a real-world application of NLP and ML:
 
-Predict on test data
+- Preprocessed raw text efficiently
+- Converted it into usable numeric format
+- Applied a simple and fast model with high accuracy
+- Identified spam reliably with minimal resources
 
-📊 Model Evaluation
-Metrics Used:
-Accuracy Score – overall performance
+---
 
-Confusion Matrix – true positives, false positives, etc.
+## 🚀 Possible Improvements
 
-Precision – how many predicted spams were actually spam
+- Use **TF-IDF Vectorizer** instead of BoW  
+- Replace stemming with **lemmatization**  
+- Try other ML models (e.g., Logistic Regression, SVM)  
+- Deploy as a web app using Flask or Streamlit  
+- Improve data visualization and EDA  
 
-Recall – how many actual spams were correctly detected
-
-F1-Score – harmonic mean of precision and recall
-
-📌 Results from your notebook show very high accuracy (~97%), indicating a strong model.
-
-▶️ How to Run This Project
-🛠️ Requirements
-Install these packages before running the notebook:
-
-bash
-Copy
-Edit
-pip install pandas numpy matplotlib seaborn sklearn nltk
-🏃 Run Instructions
-Clone or download this repository.
-
-Open the sms_spam_classifier.ipynb file in:
-
-Jupyter Notebook
-
-VS Code (with Jupyter extension)
-
-Google Colab
-
-Run all cells sequentially.
-
-Optional: Download NLTK resources if prompted (stopwords, punkt).
-
-💻 Technologies & Libraries Used
-Tool/Library	Purpose
-Python	Programming language
-Pandas	Data manipulation
-NumPy	Array operations
-NLTK	Natural language processing
-Scikit-learn	ML algorithms and utilities
-Matplotlib/Seaborn	Visualization
-
-✅ Results & Discussion
-The model achieved ~97% accuracy, correctly identifying most spam and ham messages.
-
-Naive Bayes works effectively due to the independence assumption and nature of word frequency features.
-
-Feature extraction with CountVectorizer enabled numerical representation of raw text.
-
-🧾 Conclusion
-This project successfully demonstrates a practical application of NLP in classifying text messages. By using:
-
-Proper text preprocessing techniques
-
-Effective feature engineering (BoW)
-
-A simple yet powerful classifier (Naive Bayes)
-
-We were able to build a model that performs well in identifying spam with high accuracy.
-
-🚀 Possible Improvements
-Here are a few ways to take this project further:
-
-Use TF-IDF Vectorizer instead of BoW to weigh words based on importance.
-
-Lemmatization instead of stemming to retain valid root words.
-
-Try more advanced models: SVM, Logistic Regression, Random Forest.
-
-Train on a larger dataset for better generalization.
-
-Deploy the model using Flask or Streamlit as a web app.
+---
